@@ -34,9 +34,7 @@ public class MainActivity extends AppCompatActivity{
         };
         db.SetOnCB(callback);
         db.GetMainItem(0);
-
     }
-
     void FilledData(InFieldData getdata){
         List<String> product_name = new ArrayList<String>();
         List<String> product_species = new ArrayList<String>();
