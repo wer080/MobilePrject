@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
             text = (TextView) findViewById(textID);
             text.setText(product_examindate.get(i));
 
-            
+
         }
     }
 }
