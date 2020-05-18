@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity{
             textID = getResources().getIdentifier(textSID, "id", getPackageName());
             text = (TextView) findViewById(textID);
             text.setText(product_examindate.get(i));
+
+            
         }
     }
 }
