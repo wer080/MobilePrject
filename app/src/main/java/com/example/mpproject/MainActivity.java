@@ -1,10 +1,21 @@
 package com.example.mpproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Text;
 
@@ -12,83 +23,54 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
-public class MainActivity extends AppCompatActivity{
-    GetData db = new GetData();
-    InFieldData getdata = new InFieldData();
+import me.relex.circleindicator.CircleIndicator3;
 
-    public void SetDataFile(InFieldData d){
-        this.getdata = d;
-    }
+public class MainActivity extends AppCompatActivity{
+
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private mainlist_control frag_mainlist = new mainlist_control();
+    private Frag_chart frag_chart = new Frag_chart();
+    private Frag_recipes frag_recipes = new Frag_recipes();
+    private Frag_search frag_search = new Frag_search();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GetData.ReturnData callback = new GetData.ReturnData() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayout, frag_mainlist).commitAllowingStateLoss();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavi);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void receiveData(InFieldData d) {
-                SetDataFile(d);
-                FilledData(d);
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                switch(menuItem.getItemId())
+                {
+                    case R.id.navi_home:
+                        transaction.replace(R.id.frameLayout, frag_mainlist).commitAllowingStateLoss();
+                        break;
+
+                    case R.id.navi_chart:
+                        transaction.replace(R.id.frameLayout, frag_chart).commitAllowingStateLoss();
+                        break;
+
+                    case R.id.navi_recipe:
+                        transaction.replace(R.id.frameLayout, frag_recipes).commitAllowingStateLoss();
+                        break;
+
+                    case R.id.navi_search:
+                        transaction.replace(R.id.frameLayout, frag_search).commitAllowingStateLoss();
+                        break;
+                }
+                return true;
             }
-        };
-        db.SetOnCB(callback);
-        db.GetMainItem(0);
-    }
-    void FilledData(InFieldData getdata){
-        List<String> product_name = new ArrayList<String>();
-        List<String> product_species = new ArrayList<String>();
-        List<String> product_grade = new ArrayList<String>();
-        List<String> product_unit = new ArrayList<String>();
-        List<Double> product_price = new ArrayList<Double>();
-        List<Double> product_vsYD = new ArrayList<Double>();
-        List<String> product_examindate = new ArrayList<String>();
-
-        product_name = getdata.GetProductName();
-        product_species = getdata.GetSpecies();
-        product_grade = getdata.GetGrade();
-        product_unit = getdata.GetUnit();
-        product_price = getdata.GetPrice();
-        product_vsYD = getdata.GetChangeRate();
-        product_examindate = getdata.GetExaminDate();
-
-        for(int i = 0; i < 2; i++) {
-            String textSID = "data_name_" + (i + 1);
-            int textID = getResources().getIdentifier(textSID, "id", getPackageName());
-            TextView text = (TextView) findViewById(textID);
-            text.setText(product_name.get(i));
-
-            textSID = "data_species_" + (i + 1);
-            textID = getResources().getIdentifier(textSID, "id", getPackageName());
-            text = (TextView) findViewById(textID);
-            text.setText(product_species.get(i));
-
-            textSID = "data_grade_" + (i + 1);
-            textID = getResources().getIdentifier(textSID, "id", getPackageName());
-            text = (TextView) findViewById(textID);
-            text.setText(product_grade.get(i));
-
-            textSID = "data_unit_" + (i + 1);
-            textID = getResources().getIdentifier(textSID, "id", getPackageName());
-            text = (TextView) findViewById(textID);
-            text.setText(product_unit.get(i));
-
-            textSID = "data_price_" + (i + 1);
-            textID = getResources().getIdentifier(textSID, "id", getPackageName());
-            text = (TextView) findViewById(textID);
-            text.setText(product_price.get(i).toString());
-
-            textSID = "data_vsYD_" + (i + 1);
-            textID = getResources().getIdentifier(textSID, "id", getPackageName());
-            text = (TextView) findViewById(textID);
-            text.setText(product_vsYD.get(i).toString());
-
-            textSID = "data_examindate_" + (i + 1);
-            textID = getResources().getIdentifier(textSID, "id", getPackageName());
-            text = (TextView) findViewById(textID);
-            text.setText(product_examindate.get(i));
+        });
 
 
-        }
+
     }
 }

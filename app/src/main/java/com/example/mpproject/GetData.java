@@ -78,6 +78,7 @@ class InFieldData{
 public class GetData{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ReturnData rd;
+
     public interface ReturnData {
         void receiveData(InFieldData d);
     }

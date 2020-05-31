@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navi_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:enabled="true"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/navi_chart"
+        android:icon="@drawable/ic_equalizer_black_24dp"
+        android:enabled="true"
+        android:title="Prices"/>
+
+    <item
+        android:id="@+id/navi_recipe"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        android:enabled="true"
+        android:title="recipes"/>
+
+    <item
+        android:id="@+id/navi_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:enabled="true"
+        android:title="Search"/>
+
+</menu>
