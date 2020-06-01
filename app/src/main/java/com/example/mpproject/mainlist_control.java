@@ -33,6 +33,7 @@ public class mainlist_control extends Fragment {
         mPager = (ViewPager2) view.findViewById(R.id.viewpager);
         pagerAdapter = new MyAdapter(getActivity(), num_page);
         mPager.setAdapter(pagerAdapter);
+        mPager.setPadding(-50,0,-50,0);
 
         mIndicater = (CircleIndicator3) view.findViewById(R.id.indicator);
         mIndicater.setViewPager(mPager);
