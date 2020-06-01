@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,6 +27,10 @@ import java.util.zip.Inflater;
 import me.relex.circleindicator.CircleIndicator3;
 
 public class MainActivity extends AppCompatActivity{
+    //To receive data from DB on start activity
+    public GetDataToday db = new GetDataToday();
+    public InFieldTodayData data_get = new InFieldTodayData();
+    public void SetDataField(InFieldTodayData d){this.data_get = d;}
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private mainlist_control frag_mainlist = new mainlist_control();
@@ -33,12 +38,13 @@ public class MainActivity extends AppCompatActivity{
     private Frag_recipes frag_recipes = new Frag_recipes();
     private Frag_search frag_search = new Frag_search();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GetDataToday.getInstance().GetMainItem();
+        db.GetMainItem();
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frameLayout, frag_mainlist).commitAllowingStateLoss();
