@@ -28,9 +28,6 @@ import me.relex.circleindicator.CircleIndicator3;
 
 public class MainActivity extends AppCompatActivity{
     //To receive data from DB on start activity
-    public GetDataToday db = new GetDataToday();
-    public InFieldTodayData data_get = new InFieldTodayData();
-    public void SetDataField(InFieldTodayData d){this.data_get = d;}
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private mainlist_control frag_mainlist = new mainlist_control();
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         GetDataToday.getInstance().GetMainItem();
-        db.GetMainItem();
+        GetRecipe.getInstance().GetRecipeInfo();
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frameLayout, frag_mainlist).commitAllowingStateLoss();

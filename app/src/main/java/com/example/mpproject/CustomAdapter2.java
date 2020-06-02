@@ -1,0 +1,101 @@
+package com.example.mpproject;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpRetryException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.annotation.Nonnull;
+import javax.net.ssl.HttpsURLConnection;
+
+public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomViewHolder> {
+
+    RecipeInfo recipeInfo;
+    RecipeIngredient recipeIngredient;
+    RecipeProcess recipeProcess;
+    Bitmap bm;
+
+    public CustomAdapter2(RecipeInfo ri, RecipeIngredient rig, RecipeProcess rp) {
+        this.recipeInfo = ri;
+        this.recipeIngredient = rig;
+        this. recipeProcess = rp;
+    }
+
+    public class CustomViewHolder extends RecyclerView.ViewHolder{
+        public RoundedImageView img;
+        public TextView recipe_name;
+        public TextView recipe_info;
+
+        public CustomViewHolder(View view){
+            super(view);
+
+            this.img = (RoundedImageView) view.findViewById(R.id.recipe_img);
+            this.recipe_name = (TextView) view.findViewById(R.id.recipe_name);
+            this.recipe_info = (TextView) view.findViewById(R.id.recipe_info);
+        }
+    }
+
+    @Override
+    public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_card, viewGroup, false);
+        CustomViewHolder viewHolder = new CustomViewHolder(view);
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@Nonnull CustomViewHolder viewHolder, int position){
+        final String imageUrl = GetRecipe.getInstance().recipeInfo.GetImg().get(position);
+
+        Thread mThread = new Thread() {
+
+            @Override
+            public void run() {
+                try{
+                    URL url = new URL(imageUrl);
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+
+                    InputStream is = conn.getInputStream();
+                    bm = BitmapFactory.decodeStream(is);
+                } catch (Exception e){
+                    //error occurred
+                    Log.d("error", "image load failed");
+                }
+            }
+        };
+        mThread.start();
+
+        try{
+            mThread.join();
+            viewHolder.img.setImageBitmap(bm);
+            viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.GetName().get(position));
+            viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.GetInfo().get(position));
+
+        } catch (InterruptedException e) {
+        }
+
+    }
+
+    @Override
+    public int getItemCount(){
+        return GetRecipe.getInstance().recipeInfo.GetCode().size();
+    }
+
+}

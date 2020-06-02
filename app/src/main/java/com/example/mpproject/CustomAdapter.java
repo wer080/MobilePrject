@@ -14,6 +14,12 @@ import javax.annotation.Nonnull;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
+    InFieldTodayData usingData;
+
+    public CustomAdapter(InFieldTodayData d) {
+        this.usingData = d;
+    }
+
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         public TextView product_name;
         public TextView product_cat;
@@ -46,7 +52,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         viewHolder.product_cat.setText(GetDataToday.getInstance().todayData.GetSpecies().get(position));
         viewHolder.product_grade.setText(GetDataToday.getInstance().todayData.GetGrade().get(position));
         viewHolder.product_unit.setText(GetDataToday.getInstance().todayData.GetUnit().get(position));
-        viewHolder.product_price.setText(GetDataToday.getInstance().todayData.GetPrice().get(position).toString());
+
+        double val = GetDataToday.getInstance().todayData.GetPrice().get(position);
+        String price = String.format("%.0f", val);
+        viewHolder.product_price.setText(price);
     }
 
     @Override

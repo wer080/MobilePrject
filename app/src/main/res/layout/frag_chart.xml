@@ -1,94 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFCC66">
 
 
     <EditText
         android:id="@+id/to_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:inputType="text"
         android:text="검색어를 입력하세요."
         android:textColor="#4D000000"
-        app:layout_constraintBottom_toTopOf="@+id/show_standard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#FFFFFF">
 
     </EditText>
 
-    <TableRow
-        android:id="@+id/show_standard"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/to_search"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_margin="5dp">
 
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
+        <TableRow
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="상품명"
-            android:textSize="15dp"
-            android:fontFamily="@font/context_font"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="right"
+            android:background="#FFFFFF">
 
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/context_font"
+                android:text="조사날짜 : "
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/show_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/context_font"
+                android:text=" 조사날짜 입력칸"
+                android:textSize="15dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/show_standard"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="상품종류"
-            android:textSize="15dp"
-            android:fontFamily="@font/context_font"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFFFFF">
 
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="등급"
-            android:textSize="15dp"
-            android:fontFamily="@font/context_font"/>
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/context_font"
+                android:text="상품명"
+                android:textSize="15dp"
+                android:background="#FFCC66"
+                android:gravity="center"/>
 
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="단위"
-            android:textSize="15dp"
-            android:fontFamily="@font/context_font"/>
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/context_font"
+                android:text="상품종류"
+                android:textSize="15dp"
+                android:gravity="center"/>
 
-        <TextView
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="가격"
-            android:textSize="15dp"
-            android:fontFamily="@font/context_font"/>
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/context_font"
+                android:text="등급"
+                android:textSize="15dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/context_font"
+                android:text="단위"
+                android:textSize="15dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/context_font"
+                android:text="가격"
+                android:textSize="15dp"
+                android:background="#FFCC66"
+                android:gravity="center"/>
 
 
-    </TableRow>
+        </TableRow>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:overScrollMode="never"
-        android:scrollbarFadeDuration="0"
-        android:scrollbarSize="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/show_standard">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
