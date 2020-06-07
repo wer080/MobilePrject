@@ -3,6 +3,7 @@ package com.example.mpproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,10 +27,15 @@ import java.util.zip.Inflater;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-public class MainActivity extends AppCompatActivity{
-    //To receive data from DB on start activity
+public class MainActivity extends AppCompatActivity {
+    public static final MainActivity instance = new MainActivity();
 
-    private FragmentManager fragmentManager = getSupportFragmentManager();
+    public static MainActivity getInstance(){
+        return instance;
+    }
+
+
+    public FragmentManager fragmentManager = getSupportFragmentManager();
     private mainlist_control frag_mainlist = new mainlist_control();
     private Frag_chart frag_chart = new Frag_chart();
     private Frag_recipes frag_recipes = new Frag_recipes();
@@ -72,7 +78,6 @@ public class MainActivity extends AppCompatActivity{
                 return true;
             }
         });
-
 
 
     }

@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +22,15 @@ public class Frag_recipes extends Fragment {
     private RecyclerView mRecyclerView;
     private CustomAdapter2 mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    public static Frag_recipes instance = new Frag_recipes();
+
+    public static Frag_recipes getInstance(){
+        return instance;
+    }
+
+
+
 
     @Nullable
     @Override
@@ -36,6 +47,7 @@ public class Frag_recipes extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), 1));
+
         return view;
     }
 

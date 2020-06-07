@@ -33,6 +33,17 @@
                 app:riv_oval="false"/>
 
             <TextView
+                android:id="@+id/recipe_id"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="레시피 번호"
+                android:textSize="10sp"
+                android:fontFamily="@font/context_font"/>
+
+
+            <TextView
                 android:id="@+id/recipe_name"
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"

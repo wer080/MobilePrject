@@ -57,7 +57,8 @@ class RecipeProcess{
     public List<String> GetPImg(){return recipe_processImg;}
 }
 
-public class GetRecipe {
+public class
+GetRecipe {
 
     public static final GetRecipe instance = new GetRecipe();
 
