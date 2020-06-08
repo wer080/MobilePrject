@@ -1,9 +1,12 @@
 package com.example.mpproject;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import javax.annotation.Nullable;
 
-public class Frag_chart extends Fragment {
+public class Frag_chart extends Fragment implements TextWatcher {
 
     private RecyclerView mRecyclerView;
     private CustomAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private EditText editText;
 
     @Nullable
     @Override
@@ -36,7 +40,10 @@ public class Frag_chart extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), 1));
 
         TextView examin_data = (TextView)view.findViewById(R.id.show_date);
-        examin_data.setText(GetDataToday.getInstance().todayData.GetExaminDate().get(0));
+        examin_data.setText(GetDataToday.getInstance().todayData.get(0).GetExaminDate());
+
+        editText = (EditText)view.findViewById(R.id.to_search);
+        editText.addTextChangedListener(this);
 
         return view;
     }
@@ -44,6 +51,22 @@ public class Frag_chart extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2){
+        mAdapter.getFilter().filter(charSequence);
+        System.out.println("char sequencse = " + charSequence.toString());
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable){
+
     }
 
 

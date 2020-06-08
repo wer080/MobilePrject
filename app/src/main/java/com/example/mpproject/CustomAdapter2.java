@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -24,20 +26,25 @@ import java.net.HttpRetryException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.net.ssl.HttpsURLConnection;
 
-public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomViewHolder> {
+public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomViewHolder> implements Filterable {
 
     public int recipeNum;
-    RecipeInfo recipeInfo;
-    RecipeIngredient recipeIngredient;
-    RecipeProcess recipeProcess;
+    List<RecipeInfo> recipeInfo;
+    List<RecipeIngredient> recipeIngredient;
+    List<RecipeProcess> recipeProcess;
     Bitmap bm;
 
+    List<RecipeInfo> unFilteredlist = GetRecipe.getInstance().recipeInfo;
+    List<RecipeInfo> filteredList;
 
-    public CustomAdapter2(RecipeInfo ri, RecipeIngredient rig, RecipeProcess rp) {
+
+    public CustomAdapter2(List<RecipeInfo> ri, List<RecipeIngredient> rig, List<RecipeProcess> rp) {
         this.recipeInfo = ri;
         this.recipeIngredient = rig;
         this.recipeProcess = rp;
@@ -85,43 +92,143 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomVi
 
     @Override
     public void onBindViewHolder(@Nonnull CustomViewHolder viewHolder, int position){
-        final String imageUrl = GetRecipe.getInstance().recipeInfo.GetImg().get(position);
 
-        Thread mThread = new Thread() {
+        if(filteredList == null) {
+            final String imageUrl = GetRecipe.getInstance().recipeInfo.get(position).GetImg();
 
-            @Override
-            public void run() {
-                try{
-                    URL url = new URL(imageUrl);
-                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
+            Thread mThread = new Thread() {
 
-                    InputStream is = conn.getInputStream();
-                    bm = BitmapFactory.decodeStream(is);
-                } catch (Exception e){
-                    //error occurred
-                    Log.d("error", "image load failed");
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(imageUrl);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        InputStream is = conn.getInputStream();
+                        bm = BitmapFactory.decodeStream(is);
+                    } catch (Exception e) {
+                        //error occurred
+                        Log.d("error", "image load failed");
+                    }
                 }
+            };
+            mThread.start();
+
+            try {
+                mThread.join();
+                viewHolder.img.setImageBitmap(bm);
+                viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
+                viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
+                viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
+
+            } catch (InterruptedException e) {
             }
-        };
-        mThread.start();
+        } else if (filteredList.size() == 0){
+            final String imageUrl = GetRecipe.getInstance().recipeInfo.get(position).GetImg();
 
-        try{
-            mThread.join();
-            viewHolder.img.setImageBitmap(bm);
-            viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.GetName().get(position));
-            viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.GetInfo().get(position));
-            viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.GetCode().get(position));
+            Thread mThread = new Thread() {
 
-        } catch (InterruptedException e) {
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(imageUrl);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        InputStream is = conn.getInputStream();
+                        bm = BitmapFactory.decodeStream(is);
+                    } catch (Exception e) {
+                        //error occurred
+                        Log.d("error", "image load failed");
+                    }
+                }
+            };
+            mThread.start();
+
+            try {
+                mThread.join();
+                viewHolder.img.setImageBitmap(bm);
+                viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
+                viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
+                viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
+
+            } catch (InterruptedException e) {
+            }
+        } else {
+            final String imageUrl = filteredList.get(position).GetImg();
+
+            Thread mThread = new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(imageUrl);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        InputStream is = conn.getInputStream();
+                        bm = BitmapFactory.decodeStream(is);
+                    } catch (Exception e) {
+                        //error occurred
+                        Log.d("error", "image load failed");
+                    }
+                }
+            };
+            mThread.start();
+            try {
+                mThread.join();
+                viewHolder.img.setImageBitmap(bm);
+                viewHolder.recipe_name.setText(filteredList.get(position).GetName());
+                viewHolder.recipe_info.setText(filteredList.get(position).GetInfo());
+                viewHolder.recipe_number.setText(filteredList.get(position).GetCode());
+
+            } catch (InterruptedException e) {
+            }
         }
 
     }
 
     @Override
     public int getItemCount(){
-        return GetRecipe.getInstance().recipeInfo.GetCode().size();
+        if(filteredList == null || filteredList.size() == 0){
+            return GetRecipe.getInstance().recipeInfo.size();
+        } else {
+            return filteredList.size();
+        }
     }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty() || charString == "검색어를 입력하세요.") {
+                    filteredList = unFilteredlist;
+                } else {
+                    List<RecipeInfo> filteringList = new ArrayList<RecipeInfo>();
+                    for (RecipeInfo name : unFilteredlist) {
+                        if (name.GetName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteringList.add(name);
+                        }
+                    }
+                    filteredList = filteringList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredList = (ArrayList<RecipeInfo>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
 }

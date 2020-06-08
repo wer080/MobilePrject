@@ -1,9 +1,12 @@
 package com.example.mpproject;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,11 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import javax.annotation.Nullable;
 
-public class Frag_recipes extends Fragment {
+public class Frag_recipes extends Fragment implements TextWatcher {
 
     private RecyclerView mRecyclerView;
     private CustomAdapter2 mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private EditText editText;
 
     public static Frag_recipes instance = new Frag_recipes();
 
@@ -48,11 +52,29 @@ public class Frag_recipes extends Fragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(), 1));
 
+        editText = (EditText)view.findViewById(R.id.search_recipes);
+        editText.addTextChangedListener(this);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2){
+        mAdapter.getFilter().filter(charSequence);
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable){
+
     }
 }

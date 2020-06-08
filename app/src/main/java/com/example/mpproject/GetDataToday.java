@@ -13,50 +13,61 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 class InFieldTodayData{
-    private List<String> examinDate = new ArrayList<String>();
-    private List<String> grade = new ArrayList<String>();
-    private List<Double> price = new ArrayList<Double>();
-    private List<String> product_name = new ArrayList<String>();
-    private List<String> species = new ArrayList<String>();
-    private List<String> unit = new ArrayList<String>();
+
+    private String examinDate;
+    private String grade;
+    private double price;
+    private String product_name;
+    private String species;
+    private String unit;
+
+    public InFieldTodayData(String ed, String gd, double pr, String pn, String sp, String un){
+        this.examinDate = ed;
+        this.grade = gd;
+        this.price = pr;
+        this.product_name = pn;
+        this.species = sp;
+        this.unit = un;
+    }
 
     public void SetExaminDate(String val){
-        examinDate.add(val);
+        examinDate = val;
     }
     public void SetGrade(String val){
-        grade.add(val);
+        grade = val;
     }
     public void SetProductName(String val){
-        product_name.add(val);
+        product_name = val;
     }
     public void SetSpecies(String val){
-        species.add(val);
+        species = val;
     }
     public void SetUnit(String val){
-        unit.add(val);
+        unit = val;
     }
     public void SetPrice(double val){
-        price.add(val);
+        price = val;
     }
 
-    public List<String> GetExaminDate(){
+    public String GetExaminDate(){
         return examinDate;
     }
-    public List<String> GetGrade(){
+    public String GetGrade(){
         return grade;
     }
-    public List<String> GetProductName(){
+    public String GetProductName(){
         return product_name;
     }
-    public List<String> GetSpecies(){
+    public String GetSpecies(){
         return species;
     }
-    public List<String> GetUnit(){
+    public String GetUnit(){
         return unit;
     }
-    public List<Double> GetPrice(){
+    public double GetPrice(){
         return price;
     }
 
@@ -72,7 +83,7 @@ public class GetDataToday {
     }
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public InFieldTodayData todayData = new InFieldTodayData();
+    public List<InFieldTodayData> todayData = new ArrayList<InFieldTodayData>();
 
     public void GetMainItem() {
             DocumentReference docRef = db.collection("today_price_info").document("today_price");
@@ -83,15 +94,9 @@ public class GetDataToday {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             List list = (List) document.getData().get("data");
-                            todayData = new InFieldTodayData();
                             for (int i = 0; i < list.size(); i++) {
                                 HashMap inData = (HashMap) list.get(i);
-                                todayData.SetExaminDate(inData.get("examin_date").toString());
-                                todayData.SetGrade(inData.get("grade").toString());
-                                todayData.SetPrice((double) inData.get("price"));
-                                todayData.SetProductName(inData.get("product_name").toString());
-                                todayData.SetSpecies(inData.get("species").toString());
-                                todayData.SetUnit(inData.get("unit").toString());
+                                todayData.add(new InFieldTodayData(inData.get("examin_date").toString(), inData.get("grade").toString(), (double)inData.get("price"), inData.get("product_name").toString(), inData.get("species").toString(), inData.get("unit").toString()));
                             }
                         } else {
                             Log.d("Check", "No such document");

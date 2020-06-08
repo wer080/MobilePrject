@@ -19,7 +19,7 @@ public class Frag_search extends Fragment {
     {
         View view = inflater.inflate(R.layout.frag_mainlist, container, false);
 
-        Log.d("Test", "" + GetDataToday.getInstance().todayData.GetExaminDate().size());
+        Log.d("Test", "" + GetDataToday.getInstance().todayData.size());
         return view;
     }
 }
