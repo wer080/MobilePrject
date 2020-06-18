@@ -269,6 +269,8 @@ public class Frag_recipeBoard extends Fragment {
                 Frag_recipes goBack = new Frag_recipes();
                 ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, goBack).addToBackStack(null).commit();
 
+                Toast.makeText(getContext(), "등록이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
             }
         });
 
