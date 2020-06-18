@@ -26,13 +26,6 @@ public class SplashActivity extends AppCompatActivity {
         GetRecipe.getInstance().GetRecipeInfo();
         GetRecipe.getInstance().GetRecipeAllInfo();
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user != null) {
-            GetUserRating.getInstance().GetUserRatingData();
-        }
-
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -80,6 +80,7 @@ public class Frag_Login extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getActivity(), "로그인 성공", Toast.LENGTH_SHORT).show();
+                            GetUserRating.getInstance().GetUserRatingData();
                             Frag_profile frag_profile = new Frag_profile();
                             ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, frag_profile).addToBackStack(null).commit();
                         } else{

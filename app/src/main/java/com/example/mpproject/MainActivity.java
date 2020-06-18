@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.frameLayout, frag_profile);
                             transaction.addToBackStack(null);
                             transaction.commitAllowingStateLoss();
+                            if(GetUserRating.getInstance().userRatingList.size() == 0) {
+                                GetUserRating.getInstance().GetUserRatingData();
+                            }
                         }else{
                             transaction.replace(R.id.frameLayout, frag_login);
                             transaction.addToBackStack(null);

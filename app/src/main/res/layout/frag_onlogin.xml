@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         android:background="#FFFFFF"
-        android:paddingLeft="10dp"
-        android:paddingRight="20dp">
+        android:paddingStart="10dp"
+        android:paddingEnd="20dp">
 
             <LinearLayout
                 android:id = "@+id/list_layout"

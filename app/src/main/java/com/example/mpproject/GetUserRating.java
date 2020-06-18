@@ -43,27 +43,25 @@ public class GetUserRating {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public List<UserRating> userRatingList = new ArrayList<UserRating>();
-
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     public void GetUserRatingData() {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = user.getUid();
-        this.userRatingList.clear();
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        final String uid = user.getUid();
         db.collection("user").document("rating").collection(uid).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    if (task.isSuccessful()) {
-                        for(DocumentSnapshot doc : task.getResult()) {
-                            String rc_code = doc.getId();
-                            String rating = doc.get("rating").toString();
-                            userRatingList.add(new UserRating(rc_code, rating));
-                        }
-                    } else {
-                        Log.d("Check", "No such document");
+                    for(DocumentSnapshot doc : task.getResult()) {
+                        String rc_code = doc.getId();
+
+                        String rating = doc.get("rating").toString();
+                        userRatingList.add(new UserRating(rc_code, rating));
                     }
+
+                } else {
+                    Log.d("Check", "No such document");
                 }
             }
         });
