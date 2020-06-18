@@ -15,19 +15,17 @@ public class Recipe_contents {
 
     String recipe_nm;
     Bitmap food_img;
-    List<String> ing_name = new ArrayList<String>();
-    List<String> ing_amt = new ArrayList<String>();
-    List<String> pr_pr = new ArrayList<String>();
-    List<String> pr_num = new ArrayList<String>();
-    List<Bitmap> pr_img = new ArrayList<Bitmap>();
+    public List<String> ing_name = new ArrayList<String>();
+    public List<String> ing_amt = new ArrayList<String>();
+    public List<String> pr_pr = new ArrayList<String>();
+    public List<String> pr_num = new ArrayList<String>();
+    public List<Bitmap> pr_img = new ArrayList<Bitmap>();
     Bitmap temp;
 
-    public static Recipe_contents instance = new Recipe_contents();
+    public static final Recipe_contents instance = new Recipe_contents();
 
 
-    public Recipe_contents GetInstance(){
-        return instance;
-    }
+    public static Recipe_contents getInstance(){ return instance; }
 
     public void InitializeList(){
         this.ing_name.clear();
@@ -37,12 +35,11 @@ public class Recipe_contents {
         this.pr_img.clear();
     }
 
-    public void Extract_Process(int position){
+    public void Extract_Process(String position){
         for(int i = 0; i < GetRecipe.getInstance().recipeProcess.size(); i++){
-            if(Integer.parseInt(GetRecipe.getInstance().recipeProcess.get(i).GetCode()) == position)
+            if(GetRecipe.getInstance().recipeProcess.get(i).GetCode().equals(position))
             {
                 final String imageUrl = GetRecipe.getInstance().recipeProcess.get(i).GetPImg();
-                System.out.println(imageUrl);
                 if(imageUrl != null) {
                     Thread mThread = new Thread() {
                         @Override
@@ -78,10 +75,10 @@ public class Recipe_contents {
         }
     }
 
-    public void Extract_Title(int position){
+    public void Extract_Title(String position){
         for(int i = 0; i < GetRecipe.getInstance().recipeInfo.size(); i++)
         {
-            if(Integer.parseInt(GetRecipe.getInstance().recipeInfo.get(i).GetCode()) == position)
+            if(GetRecipe.getInstance().recipeInfo.get(i).GetCode().equals(position))
             {
                 final String imageUrl = GetRecipe.getInstance().recipeInfo.get(i).GetImg();
                 Thread mThread = new Thread() {
@@ -115,10 +112,10 @@ public class Recipe_contents {
         }
     }
 
-    public void Extract_Ingredient(int position){
+    public void Extract_Ingredient(String position){
         for(int i = 0; i < GetRecipe.getInstance().recipeIngredient.size(); i++)
         {
-            if(Integer.parseInt(GetRecipe.getInstance().recipeIngredient.get(i).GetCode()) == position) {
+            if(GetRecipe.getInstance().recipeIngredient.get(i).GetCode().equals(position)) {
                 ing_name.add(GetRecipe.getInstance().recipeIngredient.get(i).GetingName());
                 ing_amt.add(GetRecipe.getInstance().recipeIngredient.get(i).GetingAmt());
             }

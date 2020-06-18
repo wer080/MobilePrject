@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--splash 기본배경색-->
+    <!--splash 로고나 기타 원하는 이미지-->
+    <item>
+        <bitmap android:src="@drawable/loading"
+            android:gravity="fill" />
+    </item>
+</layer-list>

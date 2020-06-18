@@ -61,7 +61,6 @@ public class Frag_chart extends Fragment implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2){
         mAdapter.getFilter().filter(charSequence);
-        System.out.println("char sequencse = " + charSequence.toString());
     }
 
     @Override

@@ -31,7 +31,7 @@
                 android:layout_weight="0.3"/>
 
             <TextView
-                android:id="@+id/product_name1"
+                android:id="@+id/product_name5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/context_font"
@@ -57,7 +57,7 @@
                 android:layout_weight="0.2"/>
 
             <TextView
-                android:id="@+id/product_cat1"
+                android:id="@+id/product_cat5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/context_font"
@@ -83,7 +83,7 @@
                 android:layout_weight="0.4"/>
 
             <TextView
-                android:id="@+id/product_grade1"
+                android:id="@+id/product_grade5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/context_font"
@@ -109,7 +109,7 @@
                 android:layout_weight="0.4"/>
 
             <TextView
-                android:id="@+id/product_unit1"
+                android:id="@+id/product_unit5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/context_font"
@@ -136,7 +136,7 @@
                 android:layout_weight="0.4"/>
 
             <TextView
-                android:id="@+id/product_price1"
+                android:id="@+id/product_price5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/context_font"
@@ -164,7 +164,7 @@
                 android:layout_weight="0.2"/>
 
             <TextView
-                android:id="@+id/product_vs1"
+                android:id="@+id/product_vs5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/context_font"
@@ -191,7 +191,7 @@
                 android:layout_weight="0.2"/>
 
             <TextView
-                android:id="@+id/product_date1"
+                android:id="@+id/product_date5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/context_font"
@@ -204,7 +204,7 @@
         </TableRow>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/main_cardView1"
+            android:id="@+id/main_cardView5"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
@@ -218,7 +218,7 @@
                 android:layout_height="wrap_content">
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/main_recipe_img1"
+                    android:id="@+id/main_recipe_img5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
@@ -230,7 +230,7 @@
                     app:riv_oval="false"/>
 
                 <TextView
-                    android:id="@+id/main_recipe_id1"
+                    android:id="@+id/main_recipe_id5"
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
 
 
                 <TextView
-                    android:id="@+id/main_recipe_name1"
+                    android:id="@+id/main_recipe_name5"
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -251,7 +251,7 @@
                     android:fontFamily="@font/context_font"/>
 
                 <TextView
-                    android:id="@+id/main_recipe_info1"
+                    android:id="@+id/main_recipe_info5"
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -7,9 +7,11 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,8 +83,7 @@ class RecipeProcess{
     public String GetPImg(){return recipe_processImg;}
 }
 
-public class
-GetRecipe {
+public class GetRecipe {
 
     public static final GetRecipe instance = new GetRecipe();
 
@@ -97,67 +98,63 @@ GetRecipe {
 
 
     public void GetRecipeInfo() {
-        DocumentReference docRef = db.collection("recipes").document("recipe_Info");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+        db.collection("recipes_info").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        List list = (List) document.getData().get("data");
-                        for (int i = 0; i < list.size(); i++) {
-                            HashMap inData = (HashMap) list.get(i);
-                            recipeInfo.add(new RecipeInfo(inData.get("recipe_code").toString(), inData.get("recipe_name").toString(), inData.get("recipe_img").toString(), inData.get("recipe_info").toString()));
+                    if (task.isSuccessful()) {
+                        for(DocumentSnapshot doc : task.getResult()) {
+                            String recipe_info_code = doc.get("recipe_code").toString();
+                            String recipe_info_name = doc.get("recipe_name").toString();
+                            String recipe_info_info = doc.get("recipe_info").toString();
+                            String recipe_info_img = doc.get("recipe_img").toString();
+
+                            recipeInfo.add(new RecipeInfo(recipe_info_code, recipe_info_name, recipe_info_img, recipe_info_info));
                         }
                     } else {
                         Log.d("Check", "No such document");
                     }
-                } else {
-                    Log.d("Check", "get failed with ", task.getException());
-                }
+                 }
             }
         });
     }
 
     public void GetRecipeAllInfo() {
-        DocumentReference docRef = db.collection("recipes").document("recipe_Ingredient");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("recipes_ing").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        List list = (List) document.getData().get("data");
-                        for (int i = 0; i < list.size(); i++) {
-                            HashMap inData = (HashMap) list.get(i);
-                            recipeIngredient.add(new RecipeIngredient(inData.get("recipe_code").toString(), inData.get("recipe_ing_name").toString(), inData.get("recipe_ing_amount").toString()));
+                    if (task.isSuccessful()) {
+                        for(DocumentSnapshot doc : task.getResult()) {
+                            String recipe_ing_code = doc.get("recipe_code").toString();
+                            String recipe_ing_name = doc.get("recipe_ing_name").toString();
+                            String recipe_ing_amt = doc.get("recipe_ing_amount").toString();
+                            recipeIngredient.add(new RecipeIngredient(recipe_ing_code, recipe_ing_name, recipe_ing_amt));
                         }
                     } else {
                         Log.d("Check", "No such document");
                     }
-                } else {
-                    Log.d("Check", "get failed with ", task.getException());
                 }
             }
         });
 
-        DocumentReference docRef2 = db.collection("recipes").document("recipe_Process");
-        docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("recipes_pr").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        List list = (List) document.getData().get("data");
-                        for (int i = 0; i < list.size(); i++) {
-                            HashMap inData = (HashMap) list.get(i);
-                            recipeProcess.add(new RecipeProcess(inData.get("recipe_code").toString(), inData.get("recipe_processNumber").toString(), inData.get("recipe_process").toString(), inData.get("recipe_processImg").toString()));
+                    if (task.isSuccessful()) {
+                        for(DocumentSnapshot doc : task.getResult()) {
+                            String recipe_pr_code = doc.get("recipe_code").toString();
+                            String recipe_pr_pr = doc.get("recipe_pr").toString();
+                            String recipe_pr_img= doc.get("recipe_pr_img").toString();
+                            String recipe_pr_num = doc.get("recipe_pr_num").toString();
+
+                            recipeProcess.add(new RecipeProcess(recipe_pr_code, recipe_pr_num, recipe_pr_pr, recipe_pr_img));
                         }
                     } else {
                         Log.d("Check", "No such document");
                     }
-                } else {
-                    Log.d("Check", "get failed with ", task.getException());
                 }
             }
         });

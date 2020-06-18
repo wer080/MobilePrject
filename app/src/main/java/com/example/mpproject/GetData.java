@@ -113,6 +113,94 @@ public class GetData{
                     }
                 }
             });
+        } else if (option == 1){
+            DocumentReference docRef = db.collection("best_item_lastweek").document("lw_best");
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            List list = (List) document.getData().get("data");
+                            InFieldData data = new InFieldData();
+                            for (int i = 0; i < list.size(); i++) {
+                                HashMap inData = (HashMap) list.get(i);
+                                data.SetExaminDate(inData.get("examin_date").toString());
+                                data.SetChangeRate((double) inData.get("vsYD"));
+                                data.SetGrade(inData.get("grade").toString());
+                                data.SetPrice((double) inData.get("price"));
+                                data.SetProductName(inData.get("product_name").toString());
+                                data.SetSpecies(inData.get("species").toString());
+                                data.SetUnit(inData.get("unit").toString());
+                            }
+                            rd.receiveData(data);
+                        } else {
+                            Log.d("Check", "No such document");
+                        }
+                    } else {
+                        Log.d("Check", "get failed with ", task.getException());
+                    }
+                }
+            });
+        } else if (option == 2){
+            DocumentReference docRef = db.collection("best_item_lastmont").document("lm_best");
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            List list = (List) document.getData().get("data");
+                            InFieldData data = new InFieldData();
+                            for (int i = 0; i < list.size(); i++) {
+                                HashMap inData = (HashMap) list.get(i);
+                                data.SetExaminDate(inData.get("examin_date").toString());
+                                data.SetChangeRate((double) inData.get("vsYD"));
+                                data.SetGrade(inData.get("grade").toString());
+                                data.SetPrice((double) inData.get("price"));
+                                data.SetProductName(inData.get("product_name").toString());
+                                data.SetSpecies(inData.get("species").toString());
+                                data.SetUnit(inData.get("unit").toString());
+                            }
+                            rd.receiveData(data);
+                        } else {
+                            Log.d("Check", "No such document");
+                        }
+                    } else {
+                        Log.d("Check", "get failed with ", task.getException());
+                    }
+                }
+            });
+        } else {
+            DocumentReference docRef = db.collection("best_item_lastyear").document("ly_best");
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            List list = (List) document.getData().get("data");
+                            InFieldData data = new InFieldData();
+                            for (int i = 0; i < list.size(); i++) {
+                                HashMap inData = (HashMap) list.get(i);
+                                data.SetExaminDate(inData.get("examin_date").toString());
+                                data.SetChangeRate((double) inData.get("vsYD"));
+                                data.SetGrade(inData.get("grade").toString());
+                                data.SetPrice((double) inData.get("price"));
+                                data.SetProductName(inData.get("product_name").toString());
+                                data.SetSpecies(inData.get("species").toString());
+                                data.SetUnit(inData.get("unit").toString());
+                            }
+                            rd.receiveData(data);
+                        } else {
+                            Log.d("Check", "No such document");
+                        }
+                    } else {
+                        Log.d("Check", "get failed with ", task.getException());
+                    }
+                }
+            });
         }
+
     }
 }

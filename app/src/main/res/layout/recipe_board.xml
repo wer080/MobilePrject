@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFCC66">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+                <EditText
+                    android:id="@+id/user_recipe_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="레시피 이름을 입력해주세요"
+                    android:textSize="25sp"/>
+
+                <EditText
+                    android:id="@+id/user_recipe_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="레시피 요약 설명" />
+
+                <ImageView
+                    android:id="@+id/food_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_photo_black_24dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/context_font"
+                    android:text="재료 리스트"/>
+
+                <TableLayout
+                    android:id="@+id/ing_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:tag="ing_row1">
+
+                        <EditText
+                            android:tag="ing_1"
+                            android:hint="재료명"
+                            android:layout_weight="0.5"/>
+
+                        <EditText
+                            android:tag="amt_1"
+                            android:hint="용량"
+                            android:layout_weight="0.5"/>
+                    </TableRow>
+
+                </TableLayout>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+                <Button
+                    android:id="@+id/add_ing_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="재료추가"
+                    android:layout_gravity="right"/>
+                <Button
+                    android:id="@+id/remove_ing_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="재료삭제"
+                    android:layout_gravity="right"/>
+            </TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:fontFamily="@font/context_font"
+                android:text="레시피 과정"/>
+
+            <TableLayout
+                android:id="@+id/prc_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:tag = "row1">
+
+                    <TextView
+                        android:tag="num_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:layout_weight="0.1"/>
+
+                    <EditText
+                        android:tag="process_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="레시피를 입력하세요"
+                        android:layout_weight="0.7"/>
+
+                    <ImageView
+                        android:tag="processImg_1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_photo_black_24dp"
+                        android:layout_weight="0.2" />
+
+
+                </TableRow>
+
+            </TableLayout>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+                <Button
+                    android:id="@+id/add_process_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가"/>
+                <Button
+                    android:id="@+id/remove_process_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="삭제"/>
+            </TableRow>
+
+            <Button
+                android:id="@+id/enroll_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="등록"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

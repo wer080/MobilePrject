@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFCC66">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="#FFFFFF"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp">
+
+            <LinearLayout
+                android:id = "@+id/list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/login_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="ID Position"
+                        android:fontFamily="@font/title_font"
+                        android:textSize="25sp"
+                        android:layout_weight="0.8"/>
+                    <Button
+                        android:id="@+id/logout"
+                        android:text = "로그아웃"
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin = "15dp"
+                    android:fontFamily="@font/context_font"
+                    android:text="My favorite recipe" />
+
+                <ListView
+                    android:id="@+id/rating_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.mpproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.BufferedInputStream;
@@ -34,6 +38,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomViewHolder> implements Filterable {
 
+    Context mcontext;
     public int recipeNum;
     List<RecipeInfo> recipeInfo;
     List<RecipeIngredient> recipeIngredient;
@@ -44,10 +49,11 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomVi
     List<RecipeInfo> filteredList;
 
 
-    public CustomAdapter2(List<RecipeInfo> ri, List<RecipeIngredient> rig, List<RecipeProcess> rp) {
+    public CustomAdapter2(List<RecipeInfo> ri, List<RecipeIngredient> rig, List<RecipeProcess> rp, Context context) {
         this.recipeInfo = ri;
         this.recipeIngredient = rig;
         this.recipeProcess = rp;
+        this.mcontext =context;
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
@@ -68,15 +74,15 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomVi
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = Integer.parseInt(recipe_number.getText().toString());
-                    Recipe_contents.instance.InitializeList();
-                    Recipe_contents.instance.Extract_Title(position);
-                    Recipe_contents.instance.Extract_Ingredient(position);
-                    Recipe_contents.instance.Extract_Process(position);
+                    String position = recipe_number.getText().toString();
+                    Recipe_contents.getInstance().InitializeList();
+                    Recipe_contents.getInstance().Extract_Title(position);
+                    Recipe_contents.getInstance().Extract_Ingredient(position);
+                    Recipe_contents.getInstance().Extract_Process(position);
 
                     Frag_contents frag_contents = new Frag_contents();
 
-                    ((FragmentActivity)v.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, frag_contents).commit();
+                    ((FragmentActivity)v.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, frag_contents).addToBackStack(null).commit();
                 }
             });
 
@@ -96,100 +102,99 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomVi
         if(filteredList == null) {
             final String imageUrl = GetRecipe.getInstance().recipeInfo.get(position).GetImg();
 
-            Thread mThread = new Thread() {
+                Thread mThread = new Thread() {
 
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(imageUrl);
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setDoInput(true);
-                        conn.connect();
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL(imageUrl);
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setDoInput(true);
+                            conn.connect();
 
-                        InputStream is = conn.getInputStream();
-                        bm = BitmapFactory.decodeStream(is);
-                    } catch (Exception e) {
-                        //error occurred
-                        Log.d("error", "image load failed");
+                            InputStream is = conn.getInputStream();
+                            bm = BitmapFactory.decodeStream(is);
+                        } catch (Exception e) {
+                            //error occurred
+                            Log.d("error", "image load failed");
+                        }
                     }
+                };
+                mThread.start();
+
+                try {
+                    mThread.join();
+                    viewHolder.img.setImageBitmap(bm);
+                    viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
+                    viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
+                    viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
+
+                } catch (InterruptedException e) {
                 }
-            };
-            mThread.start();
-
-            try {
-                mThread.join();
-                viewHolder.img.setImageBitmap(bm);
-                viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
-                viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
-                viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
-
-            } catch (InterruptedException e) {
-            }
         } else if (filteredList.size() == 0){
             final String imageUrl = GetRecipe.getInstance().recipeInfo.get(position).GetImg();
 
-            Thread mThread = new Thread() {
+                Thread mThread = new Thread() {
 
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(imageUrl);
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setDoInput(true);
-                        conn.connect();
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL(imageUrl);
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setDoInput(true);
+                            conn.connect();
 
-                        InputStream is = conn.getInputStream();
-                        bm = BitmapFactory.decodeStream(is);
-                    } catch (Exception e) {
-                        //error occurred
-                        Log.d("error", "image load failed");
+                            InputStream is = conn.getInputStream();
+                            bm = BitmapFactory.decodeStream(is);
+                        } catch (Exception e) {
+                            //error occurred
+                            Log.d("error", "image load failed");
+                        }
                     }
+                };
+                mThread.start();
+
+                try {
+                    mThread.join();
+                    viewHolder.img.setImageBitmap(bm);
+                    viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
+                    viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
+                    viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
+
+                } catch (InterruptedException e) {
                 }
-            };
-            mThread.start();
-
-            try {
-                mThread.join();
-                viewHolder.img.setImageBitmap(bm);
-                viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
-                viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
-                viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
-
-            } catch (InterruptedException e) {
-            }
         } else {
             final String imageUrl = filteredList.get(position).GetImg();
 
-            Thread mThread = new Thread() {
+                Thread mThread = new Thread() {
 
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(imageUrl);
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setDoInput(true);
-                        conn.connect();
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL(imageUrl);
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setDoInput(true);
+                            conn.connect();
 
-                        InputStream is = conn.getInputStream();
-                        bm = BitmapFactory.decodeStream(is);
-                    } catch (Exception e) {
-                        //error occurred
-                        Log.d("error", "image load failed");
+                            InputStream is = conn.getInputStream();
+                            bm = BitmapFactory.decodeStream(is);
+                        } catch (Exception e) {
+                            //error occurred
+                            Log.d("error", "image load failed");
+                        }
                     }
+                };
+                mThread.start();
+                try {
+                    mThread.join();
+                    viewHolder.img.setImageBitmap(bm);
+                    viewHolder.recipe_name.setText(filteredList.get(position).GetName());
+                    viewHolder.recipe_info.setText(filteredList.get(position).GetInfo());
+                    viewHolder.recipe_number.setText(filteredList.get(position).GetCode());
+
+                } catch (InterruptedException e) {
                 }
-            };
-            mThread.start();
-            try {
-                mThread.join();
-                viewHolder.img.setImageBitmap(bm);
-                viewHolder.recipe_name.setText(filteredList.get(position).GetName());
-                viewHolder.recipe_info.setText(filteredList.get(position).GetInfo());
-                viewHolder.recipe_number.setText(filteredList.get(position).GetCode());
-
-            } catch (InterruptedException e) {
-            }
         }
-
     }
 
     @Override

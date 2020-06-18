@@ -27,11 +27,11 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 
-public class Frag_mainlist extends Fragment{
+public class Frag_mainlist3 extends Fragment{
 
     int option;
 
-    public Frag_mainlist(int opt){
+    public Frag_mainlist3(int opt){
         this.option = opt;
     }
 
@@ -39,7 +39,6 @@ public class Frag_mainlist extends Fragment{
 
     GetData db = new GetData();
     InFieldData data_get = new InFieldData();
-
     CardView cardView;
 
     public void updateData (int opt){
@@ -62,7 +61,7 @@ public class Frag_mainlist extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.frag_mainlist,container,false);
+        View view = inflater.inflate(R.layout.frag_mainlist3,container,false);
 
         GetData.ReturnData callBack = new GetData.ReturnData() {
             @Override
@@ -74,13 +73,11 @@ public class Frag_mainlist extends Fragment{
         db.SetOnCB(callBack);
         db.GetMainItem(option);
 
-
-
-        cardView = view.findViewById(R.id.main_cardView1);
+        cardView = view.findViewById(R.id.main_cardView3);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView main_card_id = (TextView) getView().findViewById(R.id.main_recipe_id1);
+                TextView main_card_id = (TextView) getView().findViewById(R.id.main_recipe_id3);
                 String position = main_card_id.getText().toString();
 
                 Recipe_contents.getInstance().InitializeList();
@@ -90,45 +87,43 @@ public class Frag_mainlist extends Fragment{
 
                 Frag_contents frag_contents = new Frag_contents();
 
-                ((FragmentActivity)v.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, frag_contents).addToBackStack(null).commit();;
-
+                ((FragmentActivity)v.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, frag_contents).addToBackStack(null).commit();
             }
         });
-
 
         return view;
     }
 
     void FilledData(InFieldData d) {
-        String product_name = data_get.GetProductName().get(0);
-        String product_cat = data_get.GetSpecies().get(0);
-        String product_grade = data_get.GetGrade().get(0);
-        String product_unit = data_get.GetUnit().get(0);
-        double product_price = data_get.GetPrice().get(0);
-        double product_vs = data_get.GetChangeRate().get(0);
+        String product_name = data_get.GetProductName().get(2);
+        String product_cat = data_get.GetSpecies().get(2);
+        String product_grade = data_get.GetGrade().get(2);
+        String product_unit = data_get.GetUnit().get(2);
+        double product_price = data_get.GetPrice().get(2);
+        double product_vs = data_get.GetChangeRate().get(2);
         String string_vs = String.format("%.2f %%", product_vs);
-        String product_date = data_get.GetExaminDate().get(0);
+        String product_date = data_get.GetExaminDate().get(2);
 
 
-        TextView product_name_txt = (TextView) getView().findViewById(R.id.product_name1);
+        TextView product_name_txt = (TextView) getView().findViewById(R.id.product_name3);
         product_name_txt.setText(product_name);
 
-        TextView product_cat_txt = (TextView) getView().findViewById(R.id.product_cat1);
+        TextView product_cat_txt = (TextView) getView().findViewById(R.id.product_cat3);
         product_cat_txt.setText(product_cat);
 
-        TextView product_grade_txt = (TextView) getView().findViewById(R.id.product_grade1);
+        TextView product_grade_txt = (TextView) getView().findViewById(R.id.product_grade3);
         product_grade_txt.setText(product_grade);
 
-        TextView product_unit_txt = (TextView) getView().findViewById(R.id.product_unit1);
+        TextView product_unit_txt = (TextView) getView().findViewById(R.id.product_unit3);
         product_unit_txt.setText(product_unit);
 
-        TextView product_price_txt = (TextView) getView().findViewById(R.id.product_price1);
+        TextView product_price_txt = (TextView) getView().findViewById(R.id.product_price3);
         product_price_txt.setText(Double.toString(product_price));
 
-        TextView product_vs_txt = (TextView) getView().findViewById(R.id.product_vs1);
+        TextView product_vs_txt = (TextView) getView().findViewById(R.id.product_vs3);
         product_vs_txt.setText(string_vs);
 
-        TextView product_date_txt = (TextView) getView().findViewById(R.id.product_date1);
+        TextView product_date_txt = (TextView) getView().findViewById(R.id.product_date3);
         product_date_txt.setText(product_date);
 
 
@@ -178,16 +173,16 @@ public class Frag_mainlist extends Fragment{
                 mThread.start();
                 try {
                     mThread.join();
-                    TextView main_card_name = (TextView) getView().findViewById(R.id.main_recipe_name1);
+                    TextView main_card_name = (TextView) getView().findViewById(R.id.main_recipe_name3);
                     main_card_name.setText(GetRecipe.getInstance().recipeInfo.get(index).GetName());
 
-                    TextView main_card_id = (TextView) getView().findViewById(R.id.main_recipe_id1);
+                    TextView main_card_id = (TextView) getView().findViewById(R.id.main_recipe_id3);
                     main_card_id.setText(GetRecipe.getInstance().recipeInfo.get(index).GetCode());
 
-                    TextView main_card_info = (TextView) getView().findViewById(R.id.main_recipe_info1);
+                    TextView main_card_info = (TextView) getView().findViewById(R.id.main_recipe_info3);
                     main_card_info.setText(GetRecipe.getInstance().recipeInfo.get(index).GetInfo());
 
-                    ImageView main_card_iv = (ImageView) getView().findViewById(R.id.main_recipe_img1);
+                    ImageView main_card_iv = (ImageView) getView().findViewById(R.id.main_recipe_img3);
                     main_card_iv.setImageBitmap(bm);
 
                 } catch (InterruptedException e) {
