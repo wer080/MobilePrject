@@ -42,6 +42,12 @@ public class Frag_Login extends Fragment {
         su_btn = (Button) view.findViewById(R.id.signup_btn);
         lg_btn = (Button) view.findViewById(R.id.login_btn);
         firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if(user != null){
+            Frag_profile frag_profile = new Frag_profile();
+            ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, frag_profile).addToBackStack(null).commit();
+        }
 
 
         su_btn.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +81,6 @@ public class Frag_Login extends Fragment {
                         if(task.isSuccessful()){
                             Toast.makeText(getActivity(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Frag_profile frag_profile = new Frag_profile();
-
                             ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, frag_profile).addToBackStack(null).commit();
                         } else{
                             Toast.makeText(getActivity(), "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();

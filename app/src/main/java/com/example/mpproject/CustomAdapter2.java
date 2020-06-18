@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
@@ -132,37 +133,38 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomVi
                 } catch (InterruptedException e) {
                 }
         } else if (filteredList.size() == 0){
+
             final String imageUrl = GetRecipe.getInstance().recipeInfo.get(position).GetImg();
 
-                Thread mThread = new Thread() {
+                    Thread mThread = new Thread() {
 
-                    @Override
-                    public void run() {
-                        try {
-                            URL url = new URL(imageUrl);
-                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                            conn.setDoInput(true);
-                            conn.connect();
+                        @Override
+                        public void run() {
+                            try {
+                                URL url = new URL(imageUrl);
+                                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                conn.setDoInput(true);
+                                conn.connect();
 
-                            InputStream is = conn.getInputStream();
-                            bm = BitmapFactory.decodeStream(is);
-                        } catch (Exception e) {
-                            //error occurred
-                            Log.d("error", "image load failed");
+                                InputStream is = conn.getInputStream();
+                                bm = BitmapFactory.decodeStream(is);
+                            } catch (Exception e) {
+                                //error occurred
+                                Log.d("error", "image load failed");
+                            }
                         }
+                    };
+                    mThread.start();
+
+                    try {
+                        mThread.join();
+                        viewHolder.img.setImageBitmap(bm);
+                        viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
+                        viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
+                        viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
+
+                    } catch (InterruptedException e) {
                     }
-                };
-                mThread.start();
-
-                try {
-                    mThread.join();
-                    viewHolder.img.setImageBitmap(bm);
-                    viewHolder.recipe_name.setText(GetRecipe.getInstance().recipeInfo.get(position).GetName());
-                    viewHolder.recipe_info.setText(GetRecipe.getInstance().recipeInfo.get(position).GetInfo());
-                    viewHolder.recipe_number.setText(GetRecipe.getInstance().recipeInfo.get(position).GetCode());
-
-                } catch (InterruptedException e) {
-                }
         } else {
             final String imageUrl = filteredList.get(position).GetImg();
 
